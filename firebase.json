@@ -1,0 +1,57 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "easecortebaseversion1",
+          "appId": "1:600306167967:android:65f080082d2a16667732aa",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "easecortebaseversion1",
+          "appId": "1:600306167967:ios:f813dbfdaf1bce8d7732aa",
+          "uploadDebugSymbols": true,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "easecortebaseversion1",
+          "configurations": {
+            "android": "1:600306167967:android:65f080082d2a16667732aa",
+            "ios": "1:600306167967:ios:f813dbfdaf1bce8d7732aa",
+            "web": "1:600306167967:web:5c32d95e8f96370e7732aa"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ]
+    }
+  ]
+}

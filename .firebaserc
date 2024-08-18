@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "easecortebaseversion1",
+    "easecorte": "easecortebaseversion1"
+  },
+  "targets": {},
+  "etags": {}
+}

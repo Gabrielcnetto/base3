@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "600306167967",
+    "project_id": "easecortebaseversion1",
+    "storage_bucket": "easecortebaseversion1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600306167967:android:a90b24629ee4e3ab7732aa",
+        "android_client_info": {
+          "package_name": "com.easecorte.base"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdZac4ldkO4fQrSPi0l4MipYvtzZiouxI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600306167967:android:65f080082d2a16667732aa",
+        "android_client_info": {
+          "package_name": "com.easecorte.v1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdZac4ldkO4fQrSPi0l4MipYvtzZiouxI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

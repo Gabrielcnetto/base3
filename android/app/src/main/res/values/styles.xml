@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tema aplicado à janela Android enquanto o processo está iniciando (Splash Screen) -->
+    <style name="LaunchTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Mostra uma tela de splash na atividade. Removido automaticamente quando
+             o Flutter engine desenha seu primeiro quadro -->
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+
+    <!-- Tema aplicado à janela Android assim que o processo foi iniciado -->
+    <style name="NormalTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">?android:colorBackground</item>
+    </style>
+</resources>
