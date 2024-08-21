@@ -123,6 +123,8 @@ flutter:
     - imagesOfApp/provasSociais/prova5.png
     - imagesOfApp/provasSociais/prova6.png
     - imagesOfApp/barbeiros/foto03.jpeg
+    - imagesOfApp/meusprodutositem.png
+    - imagesOfApp/caixa_itemsemFoto.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

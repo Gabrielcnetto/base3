@@ -2,8 +2,8 @@ import 'package:easebase/classes/Estabelecimento.dart';
 import 'package:easebase/functions/managerScreenFunctions.dart';
 import 'package:easebase/functions/profileScreenFunctions.dart';
 import 'package:easebase/managerHome/screen/manager/principal/components/Blocks.dart';
-import 'package:easebase/managerHome/screen/manager/principal/components/agendaDia/CortesHojeLista.dart';
 import 'package:easebase/managerHome/screen/manager/principal/components/verticalOptions.dart';
+import 'package:easebase/managerHome/screen/manager/produtos%20do%20Manager/produtosAdicionadosParaVenda.dart';
 import 'package:easebase/rotas/Approutes.dart';
 import 'package:easebase/normalUsersHome/screen/home/homeScreen01.dart';
 
@@ -162,8 +162,12 @@ class _ManagerScreenViewHomeNewViewState
                   ),
                 ),
                 const BlocksManagerComponent(),
-                //     const ManagerVerticalOptions(),
-                const CortesHojeLista(),
+               
+                //const CortesHojeLista(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: const ProdutosParaVendaIcon(),
+                ),
               ],
             ),
           ),
