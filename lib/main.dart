@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easebase/functions/uploadNovosProdutos.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:easebase/classes/Estabelecimento.dart';
@@ -106,6 +107,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (_) => StripeSubscriptions(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => UploadnovosprodutosBarbeiro(),
         ),
       ],
 
