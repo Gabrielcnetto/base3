@@ -23,17 +23,7 @@ class _MeusProdutosAdicionadosState extends State<MeusProdutosAdicionados> {
     super.initState();
     Provider.of<UploadnovosprodutosBarbeiro>(context, listen: false)
         .LoadProductsBarbearia();
-        inttotalProducts();
-  }
-
-  int totalProdutos = 0;
-  void inttotalProducts() {
-    setState(() {
-      totalProdutos =
-          Provider.of<UploadnovosprodutosBarbeiro>(context, listen: false)
-              .produtosAvenda
-              .length;
-    });
+    loadUserName();
   }
 
   void ativarProdutosVendidos() {
@@ -58,6 +48,15 @@ class _MeusProdutosAdicionadosState extends State<MeusProdutosAdicionados> {
         produtosVendidos = false;
       });
     }
+  }
+
+  int? totalProducts;
+  Future<void> loadUserName() async {
+    int? usuario = await UploadnovosprodutosBarbeiro().getTotalProducts();
+
+    setState(() {
+      totalProducts = usuario;
+    });
   }
 
   @override
@@ -135,7 +134,8 @@ class _MeusProdutosAdicionadosState extends State<MeusProdutosAdicionados> {
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
-                                    child: Text("${totalProdutos ?? 0}"),
+                                    child: Text(
+                                        "${totalProducts ?? 0}"),
                                   ),
                                 ],
                               ),

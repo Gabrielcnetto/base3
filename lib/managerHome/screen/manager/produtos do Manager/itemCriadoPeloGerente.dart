@@ -2,13 +2,26 @@ import 'package:easebase/classes/produtosAVenda.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ItemParaVenda extends StatelessWidget {
+class ItemParaVenda extends StatefulWidget {
   final Produtosavenda produto;
   const ItemParaVenda({
     super.key,
     required this.produto,
   });
 
+  @override
+  State<ItemParaVenda> createState() => _ItemParaVendaState();
+}
+
+class _ItemParaVendaState extends State<ItemParaVenda> {
+
+  String descricaoProduto(String descricao, int maxLength) {
+  if (descricao.length > maxLength) {
+    return descricao.substring(0, maxLength) + '...';
+  } else {
+    return descricao;
+  }
+}
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,12 +50,12 @@ class ItemParaVenda extends StatelessWidget {
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 child: Text(
-                  produto.ativoParaExibir ? "item ativo" : "Pausado",
+                  widget.produto.ativoParaExibir ? "item ativo" : "Pausado",
                   style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 12,
-                      color:  produto.ativoParaExibir ? Colors.green.shade600 : Colors.grey.shade600,
+                      color:  widget.produto.ativoParaExibir ? Colors.green.shade600 : Colors.grey.shade600,
                     ),
                   ),
                 ),
@@ -52,7 +65,7 @@ class ItemParaVenda extends StatelessWidget {
               ),
               Container(
                 child: Text(
-                  "${produto.nome ?? "Carregando..."}",
+                  "${widget.produto.nome ?? "Carregando..."}",
                   textAlign: TextAlign.left,
                   style: GoogleFonts.poppins(
                     textStyle: TextStyle(
@@ -64,8 +77,9 @@ class ItemParaVenda extends StatelessWidget {
                 ),
               ),
               Container(
+                width: MediaQuery.of(context).size.width * 0.4,
                 child: Text(
-                  "${produto.descricao ?? "carregando..."}",
+                descricaoProduto(widget.produto.descricao ?? "carregando...", 15),
                   textAlign: TextAlign.left,
                   style: GoogleFonts.poppins(
                     textStyle: TextStyle(
@@ -78,7 +92,7 @@ class ItemParaVenda extends StatelessWidget {
               ),
               Container(
                 child: Text(
-                  "Estoque: ${produto.estoque ?? 0} Unidades",
+                  "Estoque: ${widget.produto.estoque ?? 0} Unidades",
                   textAlign: TextAlign.left,
                   style: GoogleFonts.poppins(
                     textStyle: TextStyle(
@@ -94,7 +108,7 @@ class ItemParaVenda extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      "R\$${produto.preco.toStringAsFixed(2).replaceAll('.', ',')}",
+                      "R\$${widget.produto.preco.toStringAsFixed(2).replaceAll('.', ',')}",
                       textAlign: TextAlign.left,
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
@@ -108,7 +122,7 @@ class ItemParaVenda extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      "- ${produto.quantiavendida ?? 0} Vendidos",
+                      "- ${widget.produto.quantiavendida ?? 0} Vendidos",
                       textAlign: TextAlign.left,
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
@@ -128,9 +142,9 @@ class ItemParaVenda extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.2,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: produto.urlImage.isNotEmpty
+              child: widget.produto.urlImage.isNotEmpty
                   ? Image.network(
-                      produto.urlImage,
+                      widget.produto.urlImage,
                       fit: BoxFit.cover,
                     )
                   : Image.asset(

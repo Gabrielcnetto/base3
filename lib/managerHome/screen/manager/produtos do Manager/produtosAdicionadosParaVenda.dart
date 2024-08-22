@@ -1,7 +1,9 @@
 import 'package:easebase/classes/Estabelecimento.dart';
+import 'package:easebase/functions/uploadNovosProdutos.dart';
 import 'package:easebase/managerHome/screen/manager/produtos%20do%20Manager/TelaDosProdutosAdicionados.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ProdutosParaVendaIcon extends StatelessWidget {
   const ProdutosParaVendaIcon({super.key});
@@ -12,6 +14,7 @@ class ProdutosParaVendaIcon extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20),
       child: InkWell(
         onTap: () {
+ 
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
               builder: (BuildContext ctx) {

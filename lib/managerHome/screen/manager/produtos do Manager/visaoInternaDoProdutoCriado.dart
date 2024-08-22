@@ -30,6 +30,7 @@ class _VisaoInternaDoProdutoCriadoState
   void initState() {
     super.initState();
     toggleAtivacaoOuDesativarProduto = widget.produto.ativoParaExibir;
+    DescricaoDoProdutoControler.text = widget.produto.descricao;
     nomeDoProdutoControler.text = widget.produto.nome;
     precoProdutoControler.text = widget.produto.preco.toString() + "0";
     estoqueDisponivel.text = widget.produto.estoque.toString();
@@ -103,7 +104,88 @@ class _VisaoInternaDoProdutoCriadoState
     }
   }
 
-  void adicionandoNaListaPrincipal() {}
+  Future<void> AtualizarDados() async {
+    try {
+      setState(() {
+        loadingAdd = true;
+      });
+      String valorFormatado =
+          precoProdutoControler.text.replaceAll("R\$", "").trim();
+      valorFormatado = valorFormatado.replaceAll(",", ".");
+      double valorDouble = double.parse(valorFormatado);
+      if (image != null) {
+        await Provider.of<UploadnovosprodutosBarbeiro>(listen: false, context)
+            .uploadDeImagem(
+          productId: widget.produto.id,
+          urlImage: File(image!.path),
+        );
+      }
+      if (nomeDoProdutoControler.text != widget.produto.nome) {
+        await Provider.of<UploadnovosprodutosBarbeiro>(listen: false, context)
+            .setNewTitle(
+          productId: widget.produto.id,
+          newtitle: nomeDoProdutoControler.text,
+        );
+      }
+      if (precoProdutoControler.text != widget.produto.preco.toString()) {
+        await Provider.of<UploadnovosprodutosBarbeiro>(listen: false, context)
+            .setNewPrice(
+          productId: widget.produto.id,
+          newPrice: valorDouble,
+        );
+      }
+      if (DescricaoDoProdutoControler.text != widget.produto.descricao) {
+        await Provider.of<UploadnovosprodutosBarbeiro>(listen: false, context)
+            .setNewDescription(
+          productId: widget.produto.id,
+          newDescription: DescricaoDoProdutoControler.text,
+        );
+      }
+      if (estoqueDisponivel.text != widget.produto.estoque.toString()) {
+        await Provider.of<UploadnovosprodutosBarbeiro>(listen: false, context)
+            .setNewEstoque(
+          productId: widget.produto.id,
+          newEstoque: int.parse(estoqueDisponivel.text),
+        );
+      }
+      setState(() {
+        loadingAdd = false;
+      });
+
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            Future.delayed(Duration(seconds: 3), () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            });
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              title: Text(
+                "Produto Atualizado!",
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              content: Text(
+                "Os dados do seu Produto Foram Atualizados.",
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            );
+          });
+    } catch (e) {
+      print("erro ao atualizar: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -632,7 +714,7 @@ class _VisaoInternaDoProdutoCriadoState
                           child: InkWell(
                             onTap: () {
                               if (_formKey.currentState!.validate()) {
-                                adicionandoNaListaPrincipal();
+                                AtualizarDados();
                               }
                             },
                             child: Container(
