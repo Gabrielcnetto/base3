@@ -21,9 +21,21 @@ class _MeusProdutosAdicionadosState extends State<MeusProdutosAdicionados> {
   void initState() {
     // TODO: implement initState
     super.initState();
-        Provider.of<UploadnovosprodutosBarbeiro>(context, listen: false)
+    Provider.of<UploadnovosprodutosBarbeiro>(context, listen: false)
         .LoadProductsBarbearia();
+        inttotalProducts();
   }
+
+  int totalProdutos = 0;
+  void inttotalProducts() {
+    setState(() {
+      totalProdutos =
+          Provider.of<UploadnovosprodutosBarbeiro>(context, listen: false)
+              .produtosAvenda
+              .length;
+    });
+  }
+
   void ativarProdutosVendidos() {
     if (produtosVendidos == true) {
       return;
@@ -123,7 +135,7 @@ class _MeusProdutosAdicionadosState extends State<MeusProdutosAdicionados> {
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
-                                    child: Text("0"),
+                                    child: Text("${totalProdutos ?? 0}"),
                                   ),
                                 ],
                               ),

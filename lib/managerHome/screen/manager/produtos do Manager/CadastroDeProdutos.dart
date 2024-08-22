@@ -5,9 +5,12 @@ import 'package:easebase/classes/Estabelecimento.dart';
 import 'package:easebase/classes/produtosAVenda.dart';
 import 'package:easebase/functions/uploadNovosProdutos.dart';
 import 'package:easebase/rotas/Approutes.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class CadastrodeProdutosMeuCatalogo extends StatefulWidget {
@@ -20,6 +23,36 @@ class CadastrodeProdutosMeuCatalogo extends StatefulWidget {
 
 class _CadastrodeProdutosMeuCatalogoState
     extends State<CadastrodeProdutosMeuCatalogo> {
+  @override
+  void initState() {
+    super.initState();
+    precoProdutoControler.addListener(() {
+      final text = precoProdutoControler.text;
+      final formattedText = _formatToCurrency(text);
+      if (text != formattedText) {
+        precoProdutoControler.value = TextEditingValue(
+          text: formattedText,
+          selection: TextSelection.fromPosition(
+            TextPosition(offset: formattedText.length),
+          ),
+        );
+      }
+    });
+  }
+
+  String _formatToCurrency(String text) {
+    // Remove todos caracteres não numéricos
+    final rawText = text.replaceAll(RegExp('[^0-9]'), '');
+    final number = double.tryParse(rawText) ?? 0;
+    final formatter = NumberFormat.currency(
+      locale: 'pt_BR',
+      symbol: 'R\$',
+      decimalDigits: 2,
+    );
+    return formatter
+        .format(number / 100); // Divida por 100 para converter centavos
+  }
+
   final nomeDoProdutoControler = TextEditingController();
   final DescricaoDoProdutoControler = TextEditingController();
   final precoProdutoControler = TextEditingController();
@@ -47,8 +80,12 @@ class _CadastrodeProdutosMeuCatalogoState
   }
 
   bool loadingAdd = false;
-  String urlImageDBUploaded = "";
+ 
   Future<void> adicionandoNaListaPrincipal() async {
+    String valorFormatado =
+        precoProdutoControler.text.replaceAll("R\$", "").trim();
+        valorFormatado = valorFormatado.replaceAll(",", ".");
+         double valorDouble = double.parse(valorFormatado);
     final Produtosavenda _Produtosavenda = Produtosavenda(
       categorias: _selectedItems,
       ativoParaExibir: true,
@@ -56,7 +93,7 @@ class _CadastrodeProdutosMeuCatalogoState
       estoque: int.parse(estoqueDisponivel.text),
       id: Random().nextDouble().toString(),
       nome: nomeDoProdutoControler.text,
-      preco: double.parse(precoProdutoControler.text),
+      preco: valorDouble,
       precoAntigo: 0,
       quantiavendida: 0,
       urlImage: "",
@@ -262,7 +299,32 @@ class _CadastrodeProdutosMeuCatalogoState
                           ),
                           InkWell(
                             child: InkWell(
-                              onTap: getNewImage,
+                              onTap: () {
+                                if (!kIsWeb) {
+                                  getNewImage();
+                                } else {
+                                  showDialog(
+                                      context: context,
+                                      builder: (ctx) {
+                                        return AlertDialog(
+                                          title: Text(
+                                              "Para atualizar a imagem, utilize o App"),
+                                          content: Text(
+                                              "esta funcão não é permitida pelo Site"),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text(
+                                                "Fechar",
+                                              ),
+                                            )
+                                          ],
+                                        );
+                                      });
+                                }
+                              },
                               child: Container(
                                 transformAlignment: Alignment.center,
                                 padding: EdgeInsets.symmetric(
@@ -400,6 +462,11 @@ class _CadastrodeProdutosMeuCatalogoState
                                   return null;
                                 },
                                 controller: precoProdutoControler,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  CurrencyInputFormatter(),
+                                  // Custom formatter to ensure currency format is applied
+                                ],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   label: Text(
@@ -542,6 +609,9 @@ class _CadastrodeProdutosMeuCatalogoState
                                   }
                                   return null;
                                 },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
                                 controller: estoqueDisponivel,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
@@ -608,6 +678,27 @@ class _CadastrodeProdutosMeuCatalogoState
             ),
           ],
         ],
+      ),
+    );
+  }
+}
+
+class CurrencyInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    final rawText = newValue.text.replaceAll(RegExp('[^0-9]'), '');
+    final number = double.tryParse(rawText) ?? 0;
+    final formatter = NumberFormat.currency(
+      locale: 'pt_BR',
+      symbol: 'R\$',
+      decimalDigits: 2,
+    );
+    final formattedText = formatter.format(number / 100);
+    return TextEditingValue(
+      text: formattedText,
+      selection: TextSelection.fromPosition(
+        TextPosition(offset: formattedText.length),
       ),
     );
   }

@@ -37,12 +37,12 @@ class ItemParaVenda extends StatelessWidget {
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 child: Text(
-                  "item ativo",
+                  produto.ativoParaExibir ? "item ativo" : "Pausado",
                   style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 12,
-                      color: Colors.green.shade600,
+                      color:  produto.ativoParaExibir ? Colors.green.shade600 : Colors.grey.shade600,
                     ),
                   ),
                 ),

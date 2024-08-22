@@ -3,6 +3,7 @@ import 'package:easebase/classes/produtosAVenda.dart';
 import 'package:easebase/functions/uploadNovosProdutos.dart';
 import 'package:easebase/managerHome/screen/manager/produtos%20do%20Manager/CadastroDeProdutos.dart';
 import 'package:easebase/managerHome/screen/manager/produtos%20do%20Manager/itemCriadoPeloGerente.dart';
+import 'package:easebase/managerHome/screen/manager/produtos%20do%20Manager/visaoInternaDoProdutoCriado.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,9 @@ class _TodosOsProdutosViewState extends State<TodosOsProdutosView> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+    super.initState();super.initState();
+        Provider.of<UploadnovosprodutosBarbeiro>(context, listen: false)
+        .LoadProductsBarbearia();
   }
 
   @override
@@ -104,11 +107,11 @@ class _TodosOsProdutosViewState extends State<TodosOsProdutosView> {
                 if (snapshot.data!.isEmpty) {
                   return Center(
                     child: InkWell(
-                      onTap: (){
+                      onTap: () {
                         Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (ctx) {
-                      return CadastrodeProdutosMeuCatalogo();
-                    }));
+                            .push(MaterialPageRoute(builder: (ctx) {
+                          return CadastrodeProdutosMeuCatalogo();
+                        }));
                       },
                       child: Container(
                         width: double.infinity,
@@ -139,8 +142,16 @@ class _TodosOsProdutosViewState extends State<TodosOsProdutosView> {
                     children: produtosLista!.map((item) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: ItemParaVenda(
-                          produto: item,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (ctx) => VisaoInternaDoProdutoCriado(
+                                      produto: item,
+                                    )));
+                          },
+                          child: ItemParaVenda(
+                            produto: item,
+                          ),
                         ),
                       );
                     }).toList(),

@@ -65,8 +65,8 @@ class UploadnovosprodutosBarbeiro with ChangeNotifier {
         print("entrei no map do doc");
         Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
         print("${data!.isEmpty ? "empy" : "tem item"}");
-              List<String> categorias = List<String>.from(data?['categorias'] ?? []);
-      
+        List<String> categorias = List<String>.from(data?['categorias'] ?? []);
+
         // Acessando os atributos diretamente usando []
         return Produtosavenda(
           categorias: categorias,
@@ -79,16 +79,31 @@ class UploadnovosprodutosBarbeiro with ChangeNotifier {
           quantiavendida: data?["quantiavendida"] ?? 0,
           urlImage: data?["urlImage"] ?? "",
           precoAntigo: (data?["precoAntigo"] as num?)?.toDouble() ?? 0.0,
-      
         );
       }).toList();
       _produtosAvendaStream.add(_produtosAvenda);
       print("o lengh da lista de produto é ${_produtosAvenda.length}");
       // Ordenar os dados pela data
-     // _produtosAvenda.sort((a, b) {
-     //   return a.estoque.compareTo(b.estoque);
-     // });
+      // _produtosAvenda.sort((a, b) {
+      //   return a.estoque.compareTo(b.estoque);
+      // });
     } catch (e) {
-      print("houve um erro:$e");    }
+      print("houve um erro:$e");
+    }
+  }
+
+  Future<void> ToggleProdutoDoCatalogoDaBarbearia(
+      {required String productId, required bool newBool}) async {
+    try {
+      final AttDb =
+          await database.collection("MeusProdutos").doc(productId).update({
+        "ativoParaExibir": newBool,
+      });
+      LoadProductsBarbearia();
+      print("finalizado");
+    } catch (e) {
+      print("$e");
+      throw e;
+    }
   }
 }
